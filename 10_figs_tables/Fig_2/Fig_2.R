@@ -1,0 +1,33 @@
+library("ggpubr")
+library("svglite")
+
+########################################################################
+
+cA <- readRDS("../../3_Co_smiles/count/CoReactantA.rds")
+cB <- readRDS("../../3_Co_smiles/count/CoReactantB.rds")
+cC <- readRDS("../../3_Co_smiles/count/CoProduct.rds")
+cD <- readRDS("../../3_Co_smiles/count/CoCatalyst.rds")
+cE <- readRDS("../../3_Co_smiles/count/CoSolvent.rds")
+cF <- readRDS("../../3_Co_smiles/count/CoAdditive.rds")
+
+nA <- readRDS("../../3_Ni_smiles/count/NiReactantA.rds")
+nB <- readRDS("../../3_Ni_smiles/count/NiReactantB.rds")
+nC <- readRDS("../../3_Ni_smiles/count/NiProduct.rds")
+nD <- readRDS("../../3_Ni_smiles/count/NiCatalyst.rds")
+nE <- readRDS("../../3_Ni_smiles/count/NiSolvent.rds")
+nF <- readRDS("../../3_Ni_smiles/count/NiAdditive.rds")
+
+
+plot2 <- ggarrange(cA, cB, cC, cD, cE, cF,
+                   nA, nB, nC, nD, nE, nF,
+                   #labels = c("A", "B", "C", "D", "E", "F",
+                   #           "G", "H", "I", "J", "K", "L"),
+                   #font.label = list(size = 20),
+                   ncol = 6, nrow = 2)
+
+
+ggsave(file = "Fig_2.svg", 
+       plot = plot2, width = 15, height = 10)
+
+ggsave(file = "Fig_2.png",   
+       plot = plot2, width = 15, height = 10, dpi = 600)

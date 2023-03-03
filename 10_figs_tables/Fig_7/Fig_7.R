@@ -1,0 +1,120 @@
+library("ggpubr")
+library("svglite")
+
+########################################################################
+df <- read.csv("reg_plot.csv", check.names = FALSE)
+
+plotR2 <- ggbarplot(df, x = "Metal", y = "R2",
+                    add = "mean_sd", label = TRUE, lab.vjust = 5, 
+                    add.params = list(color = "black"),
+                    lab.size = 6, lab.nb.digits = 3,
+                    color = "Metal",
+                    fill = "Metal",
+                    alpha = 0.5,
+                    palette = c("orchid3","aquamarine3"),
+                    facet.by = "Dataset",
+                    xlab = "Regression models",
+                    ylab = "R2",
+                    ggtheme = theme_pubr(),
+                    font.x = c(18, "plain", "black"),
+                    font.y = c(18, "plain", "black"),
+                    font.tickslab = c(18, "plain", "black"),
+                    legend = "none") + 
+  scale_y_continuous(
+    breaks = seq(from = 0, to = 1, by = 0.1)
+  ) +
+  theme(
+    strip.text.x = element_text(size = 18, color = "black", face = "plain")
+  ) +
+  border(size = 0.5)
+
+plotMAE <- ggbarplot(df, x = "Metal", y = "MAE",
+                     add = "mean_sd", label = TRUE, lab.vjust = 5,
+                     add.params = list(color = "black"),
+                     lab.size = 6, lab.nb.digits = 3,
+                     color = "Metal",
+                     fill = "Metal",
+                     alpha = 0.5,
+                     palette = c("orchid3","aquamarine3"),
+                     facet.by = "Dataset",
+                     xlab = "Regression models",
+                     ylab = "MAE",
+                     ggtheme = theme_pubr(),
+                     font.x = c(18, "plain", "black"),
+                     font.y = c(18, "plain", "black"),
+                     font.tickslab = c(18, "plain", "black"),
+                     legend = "none") + 
+  scale_y_continuous(
+    breaks = seq(from = 0, to = 20, by = 3)
+  ) +
+  theme(
+    strip.text.x = element_text(size = 18, color = "black", face = "plain")
+  ) +
+  border(size = 0.5)
+
+df <- read.csv("class_plot.csv", check.names = FALSE)
+
+plotAUC <- ggbarplot(df, x = "Metal", y = "AUC-ROC",
+                     add = "mean_sd", label = TRUE, lab.vjust = 5,
+                     add.params = list(color = "black"),
+                     lab.size = 6, lab.nb.digits = 3,
+                     color = "Metal",
+                     fill = "Metal",
+                     alpha = 0.5,
+                     palette = c("orchid3","aquamarine3"),
+                     facet.by = "Dataset",
+                     xlab = "Classification models",
+                     ylab = "AUC-ROC",
+                     ggtheme = theme_pubr(),
+                     font.x = c(18, "plain", "black"),
+                     font.y = c(18, "plain", "black"),
+                     font.tickslab = c(18, "plain", "black"),
+                     legend = "none") + 
+  scale_y_continuous(
+    breaks = seq(from = 0, to = 1, by = 0.2)
+  ) +
+  theme(
+    strip.text.x = element_text(size = 18, color = "black", face = "plain")
+  ) +
+  border(size = 0.5)
+
+plotACC <- ggbarplot(df, x = "Metal", y = "ACC",
+                     add = "mean_sd", label = TRUE, lab.vjust = 5,
+                     add.params = list(color = "black"),
+                     lab.size = 6, lab.nb.digits = 3,
+                     color = "Metal",
+                     fill = "Metal",
+                     alpha = 0.5,
+                     palette = c("orchid3","aquamarine3"),
+                     facet.by = "Dataset",
+                     xlab = "Classification models",
+                     ylab = "ACC",
+                     ggtheme = theme_pubr(),
+                     font.x = c(18, "plain", "black"),
+                     font.y = c(18, "plain", "black"),
+                     font.tickslab = c(18, "plain", "black"),
+                     legend = "none") + 
+  scale_y_continuous(
+    breaks = seq(from = 0, to = 1, by = 0.2)
+  ) +
+  theme(
+    strip.text.x = element_text(size = 18, color = "black", face = "plain")
+  ) +
+  border(size = 0.5)
+
+
+plot2 <- ggarrange(ggarrange(plotR2, plotMAE,
+                             labels = c("A", "B"),
+                             font.label = list(size = 20),
+                             ncol = 2, nrow = 1),
+                   plotAUC, plotACC,
+                   labels = c("","C", "D"),
+                   font.label = list(size = 20),
+                   ncol = 1, nrow = 3)
+  
+  
+ggsave(file = "Fig_7.svg", 
+       plot = plot2, width = 10, height = 10)
+
+ggsave(file = "Fig_7.png",   
+       plot = plot2, width = 10, height = 10, dpi = 600)
